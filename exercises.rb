@@ -64,7 +64,10 @@ module Exercises
   #    { :name => 'Bob', :occupation => 'Builder' }
   #    Iterate through `people` and print out their name and occupation.
   def self.ex8(people)
-    # TODO
+    people.each do |x|
+      # print "#{x[:name]}, #{x[:occupation]}"
+      print "#{x[:name]}, #{x[:occupation]}"
+    end
   end
 
   # Exercise 9
@@ -72,7 +75,7 @@ module Exercises
   #    Otherwise, returns `false`
   # Hint: Google for the wikipedia article on leap years
   def self.ex9(time)
-    # TODO
+    ((time % 400 == 0) || (time % 100 != 0)) && time % 4 == 0 ? true : false
   end
 
   # Exercise 10
