@@ -4,37 +4,39 @@ module Exercises
   #  - Triples a given string `str`
   #  - Returns "nope" if `str` is "wishes"
   def self.ex0(str)
-    # TODO
+    str == "wishes" ? "nope" : str * 3
   end
 
   # Exercise 1
   #  - Returns the number of elements in the array
   def self.ex1(array)
-    # TODO
+    array.count
   end
 
   # Exercise 2
   #  - Returns the second element of an array
   def self.ex2(array)
-    # TODO
+    array[1]
   end
 
   # Exercise 3
   #  - Returns the sum of the given array of numbers
   def self.ex3(array)
-    # TODO
+    array.reduce(:+)
   end
 
   # Exercise 4
   #  - Returns the max number of the given array
   def self.ex4(array)
-    # TODO
+    array.max
   end
 
   # Exercise 5
   #  - Iterates through an array and `puts` each element
   def self.ex5(array)
-    # TODO
+    array.each do |x|
+      puts x
+    end
   end
 
   # Exercise 6
@@ -42,7 +44,8 @@ module Exercises
   #  - If the last item is already 'panda', update
   #    it to 'GODZILLA' instead
   def self.ex6(array)
-    # TODO
+    array[-1] == "panda" ? array[-1] = "GODZILLA" : array[-1] = "panda"
+    array
   end
 
   # Exercise 7
