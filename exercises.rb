@@ -83,14 +83,19 @@ module Exercises
   #    Otherwise, returns "normal prices"
   # Hint: Read the "Stubbing" documentation on the Learn app.
   def self.ex10
-    # TODO
+    puts "Current time: #{Time.now} -- #{Time.now.hour}"
+    if Time.now.hour > 16 && Time.now.hour < 18
+      true
+    else
+      false
+    end
   end
-  
+
   # Exercise 11
   #  - Returns the sum of two numbers if they are both integers
   #  - Raises an error if both numbers are not integers
-  def self.ex11
-    # TODO
+  def self.ex11(a, b)
+    (a.is_a?(Integer) && b.is_a?(Integer)) ? a + b : raise("NotInts")
   end
   
   # Exercise 12
@@ -98,9 +103,10 @@ module Exercises
   #    ordered array with all characters need to fill the range
   #    Eg.
   #       Exercises.ex12('c', 'g') => ['c', 'd', 'e', 'f', 'g']
-  def self.ex12
-    # TODO
+  def self.ex12(let1, let2)
+    (let1..let2).to_a
   end
+
 end
 
 module Extensions

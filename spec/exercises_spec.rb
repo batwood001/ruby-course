@@ -112,21 +112,41 @@ describe 'Exercise 9' do
   end
 end
 
-# describe 'Exercise 10' do
-#   it "returns 'happy hour' if it is between 4 and 6pm, otherwise returns 'normal prices'" do
-#     result = 
+describe 'Exercise 10' do
+  it "returns 'happy hour' if it is between 4 and 6pm, otherwise returns 'normal prices'" do
+    Time.stub(:now).and_return( Time.parse "5:00pm" )
+    result = Exercises.ex10()
+    expect(result).to eq(true)
 
-# describe 'Exercise 11' do
-#   it ... do
-
-#   end
-# end
-
-describe 'Exercise 12' do
-  it "Raises an error" do
-    expect { Exercises.ex12 }.to raise_error
+    Time.stub(:now).and_return( Time.parse "2:00pm" )
+    result = Exercises.ex10()
+    expect(result).to eq(false)
+    # if Time.now.hour > 15 && Time.now.hour < 17
+    # else
+    #   expect(result).to eq(false)
+    # end
   end
 end
+
+
+describe 'Exercise 11' do
+  it "Adds two integers or Raises an error" do
+    expect { Exercises.ex11("a", 2) }.to raise_error
+    result = Exercises.ex11(2,2)
+    expect(result).to eq(4)
+  end
+end
+
+describe 'Exercise 12' do
+  it "Creates an array ranging from one letter to the other" do
+  result = Exercises.ex12("a", "f")
+  expect(result).to eq(["a","b","c","d","e","f"])
+  end
+end
+
+#ijijoijoi
+##oijoi#
+##jio
 
 
 
