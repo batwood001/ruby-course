@@ -62,6 +62,23 @@ describe 'Exercise 6' do
   end
 end
 
+describe 'Exercise 7' do
+  it "If the string `str` exists in the array, add `str` to the end of the array" do
+    result = Exercises.ex7(["porridge", 2, "str"], "str")
+    expect(result).to eq(["porridge", 2, "str", "str"])
+  end
+
+  it "ditto" do
+    result = Exercises.ex7(["porridge", 2, "fun"],"str")
+    expect(result).to eq(["porridge", 2, "fun"])
+  end
+
+  it "ditto" do
+    result = Exercises.ex7(["str"],"str")
+    expect(result).to eq(["str","str"]) #There could really be so many more tests
+  end
+end
+
 
 
 
