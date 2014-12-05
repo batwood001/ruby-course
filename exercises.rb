@@ -66,7 +66,7 @@ module Exercises
   def self.ex8(people)
     people.each do |x|
       # print "#{x[:name]}, #{x[:occupation]}"
-      print "#{x[:name]}, #{x[:occupation]}"
+      puts "#{x[:name]}, #{x[:occupation]}"
     end
   end
 

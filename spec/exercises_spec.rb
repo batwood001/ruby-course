@@ -79,14 +79,16 @@ describe 'Exercise 7' do
   end
 end
 
-# describe 'Exercise 8' do
-#   it "`people` is an array of hashes. Each hash is like the following: 
-#     { :name => 'Bob', :occupation => 'Builder' }
-#     Iterate through `people` and print out their name and occupation." do
-#     STDOUT.should_receive(:print).with("Bob, Builder")
-#     result = Exercises.ex8([{ :name => "Bob", :occupation => "Builder"}])#, { :name => "Carl", :occupation => "Climber"}])
-#   end
-# end
+describe 'Exercise 8' do
+  it "`people` is an array of hashes. Each hash is like the following: 
+    { :name => 'Bob', :occupation => 'Builder' }
+    Iterate through `people` and print out their name and occupation." do
+    STDOUT.should_receive(:puts).with("Bob, Builder")
+    STDOUT.should_receive(:puts).with("Carl, Climber")
+
+    Exercises.ex8([{ :name => "Bob", :occupation => "Builder"}, { :name => "Carl", :occupation => "Climber"}])
+  end
+end
 
 describe 'Exercise 9' do
   it "Returns `true` if the given time is in a leap year, otherwise returns `false`" do
@@ -107,6 +109,22 @@ describe 'Exercise 9' do
    it "ditto" do
     result = Exercises.ex9(1952)
     expect(result).to eq(true)
+  end
+end
+
+# describe 'Exercise 10' do
+#   it "returns 'happy hour' if it is between 4 and 6pm, otherwise returns 'normal prices'" do
+#     result = 
+
+# describe 'Exercise 11' do
+#   it ... do
+
+#   end
+# end
+
+describe 'Exercise 12' do
+  it "Raises an error" do
+    expect { Exercises.ex12 }.to raise_error
   end
 end
 
