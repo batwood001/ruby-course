@@ -1,8 +1,11 @@
 require 'sinatra'
-require 'sinatra/reloader'
+# require 'sinatra/reloader'
 require 'rest-client'
 require 'json'
 
+
+set :bind, '0.0.0.0'
+enable :sessions
 # #
 # This is our only html view...
 #
