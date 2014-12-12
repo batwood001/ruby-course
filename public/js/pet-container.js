@@ -11,6 +11,7 @@
   }
 
   PetContainer.view = function (ctrl) {
+    console.log("Rendering view",ctrl.user().cats)
     var content
     if (ctrl.user()) {
       content = [
@@ -29,11 +30,11 @@
   }
 
   var petsView = function (ctrl, type, pets) {
-
     var petDivs = pets.map(function(pet) {
+      console.log("Rendering",type,pet)
       return m('.pet', [
         m('.photo',
-          m('img', { src: pet.imageUrl })
+          m('img', { src: pet.imageurl })
         ),
         m('.info', [
           m('h4', pet.name)
