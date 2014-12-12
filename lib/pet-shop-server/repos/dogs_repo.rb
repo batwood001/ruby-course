@@ -15,5 +15,11 @@ module PetShopServer
       result = db.exec(sql, [shopid])
       JSON.generate(result.entries)
     end
+
+    def self.find_by_owner_id db, ownerid
+      sql = %q[SELECT * FROM dogs WHERE owner_id = $1]
+      result = db.exec(sql, [ownerid])
+      result.entries
+    end
   end
 end

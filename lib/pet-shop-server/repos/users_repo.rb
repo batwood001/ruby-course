@@ -15,6 +15,12 @@ module PetShopServer
       result = db.exec(sql, [name])
       result.entries.first
     end
-  
+
+    def self.find_by_id db, id
+      sql = %q[SELECT * FROM users where id = $1]
+      result = db.exec(sql, [id])
+      puts result.entries.first
+      result.entries.first
+    end
   end
 end

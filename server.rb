@@ -27,9 +27,12 @@ require_relative 'lib/pet-shop-server.rb'
   get '/' do
     if session[:user_id]
       # TODO: Grab user from database
-    #   user_id = session[:user_id]
-    #   db = PetShopServer.create_db_connection 'pet-shop-server'
-    #   @current_user = PetShopServer::UsersRepo.find db, user_id
+      user_id = session[:user_id]
+      db = PetShopServer.create_db_connection 'pet-shop-server'
+      @current_user = PetShopServer::UsersRepo.find_by_id db, user_id
+      @current_user[:cats] = PetShopServer::CatsRepo.find_by_owner_id db, user_id
+      @current_user[:dogs] = PetShopServer::DogsRepo.find_by_owner_id db, user_id
+      puts "CURRENT USER IS: #{@current_user}"
     # else
       # @current_user = $user
     end
