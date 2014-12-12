@@ -15,10 +15,10 @@ require_relative 'lib/pet-shop-server.rb'
   # before do
   #   if session['user_id']
   #     user_id = session['user_id']
-  #     db = Blogtastic.create_db_connection 'blogtastic'
-  #     @current_user = Blogtastic::UsersRepo.find db, user_id
+  #     db = PetShopServer.create_db_connection 'pet-shop-server'
+  #     @current_user = PetShopServer::UsersRepo.find db, user_id
   #   else
-  #     @current_user = {'username' => 'anonymous', 'id' => 1}
+  #     @current_user = $sample_user
   #   end
   # end
 # #
@@ -27,7 +27,11 @@ require_relative 'lib/pet-shop-server.rb'
   get '/' do
     if session[:user_id]
       # TODO: Grab user from database
-      @current_user = $sample_user
+    #   user_id = session[:user_id]
+    #   db = PetShopServer.create_db_connection 'pet-shop-server'
+    #   @current_user = PetShopServer::UsersRepo.find db, user_id
+    # else
+      # @current_user = $user
     end
     erb :index
   end
@@ -49,13 +53,23 @@ require_relative 'lib/pet-shop-server.rb'
     password = params['password']
 
     # TODO: Grab user by username from database and check password
-    user = { 'username' => 'alice', 'password' => '123' }
-
-    if password == user['password']
-      headers['Content-Type'] = 'application/json'
-      # TODO: Return all pets adopted by this user
-      # TODO: Set session[:user_id] so the server will remember this user has logged in
-      $sample_user.to_json
+    db = PetShopServer.create_db_connection('pet-shop-server')
+    if PetShopServer::UsersRepo.find_by_name db, username
+      user = PetShopServer::UsersRepo.find_by_name db, username #{ 'username' => 'alice', 'password' => '123' }
+      # puts "-------------------------------"
+      # puts user
+      # puts "correct password: #{user['password']}"
+      # puts "entered: #{password}"
+      # puts "-------------------------------"
+      if password == user['password']
+        headers['Content-Type'] = 'application/json'
+        # TODO: Return all pets adopted by this user
+        # TODO: Set session[:user_id] so the server will remember this user has logged in
+        session[:user_id] = user["id"]
+        # $user.to_json
+      else
+        status 401
+      end
     else
       status 401
     end
@@ -93,7 +107,10 @@ require_relative 'lib/pet-shop-server.rb'
     headers['Content-Type'] = 'application/json'
     id = params[:id]
     # TODO: Update database instead
-    RestClient.get("http://pet-shop.api.mks.io/shops/#{id}/dogs")
+    # RestClient.get("http://pet-shop.api.mks.io/shops/#{id}/dogs")
+    db = PetShopServer.create_db_connection('pet-shop-server')
+    puts PetShopServer::DogsRepo.get_dogs_by_shop(db, id)
+    PetShopServer::DogsRepo.get_dogs_by_shop(db, id)
   end
 
   put '/shops/:shop_id/dogs/:id/adopt' do
@@ -107,15 +124,15 @@ require_relative 'lib/pet-shop-server.rb'
   end
 
 
-  $sample_user = {
-    id: 999,
-    username: 'alice',
-    cats: [
-      { shopId: 1, name: "NaN Cat", imageUrl: "http://i.imgur.com/TOEskNX.jpg", adopted: true, id: 44 },
-      { shopId: 8, name: "Meowzer", imageUrl: "http://www.randomkittengenerator.com/images/cats/rotator.php", id: 8, adopted: "true" }
-    ],
-    dogs: [
-      { shopId: 1, name: "Leaf Pup", imageUrl: "http://i.imgur.com/kuSHji2.jpg", happiness: 2, id: 2, adopted: "true" }
-    ]
-}
+#   $sample_user = {
+#     id: 999,
+#     username: 'alice',
+#     cats: [
+#       { shopId: 1, name: "NaN Cat", imageUrl: "http://i.imgur.com/TOEskNX.jpg", adopted: true, id: 44 },
+#       { shopId: 8, name: "Meowzer", imageUrl: "http://www.randomkittengenerator.com/images/cats/rotator.php", id: 8, adopted: "true" }
+#     ],
+#     dogs: [
+#       { shopId: 1, name: "Leaf Pup", imageUrl: "http://i.imgur.com/kuSHji2.jpg", happiness: 2, id: 2, adopted: "true" }
+#     ]
+# }
 # end
