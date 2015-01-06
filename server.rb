@@ -3,38 +3,18 @@ require 'sinatra'
 require 'rest-client'
 require 'json'
 
-require_relative 'lib/pet-shop-server.rb'
+require_relative 'config/environments.rb'
 
-# class PetShopServer::Server < Sinatra::Application
-  
-  # configure do
+
     set :bind, '0.0.0.0'
     enable :sessions
-  # end
 
-  # before do
-  #   if session['user_id']
-  #     user_id = session['user_id']
-  #     db = PetShopServer.create_db_connection 'pet-shop-server'
-  #     @current_user = PetShopServer::UsersRepo.find db, user_id
-  #   else
-  #     @current_user = $sample_user
-  #   end
-  # end
-# #
-# This is our only html view...
-#
+
   get '/' do
     if session[:user_id]
-      # TODO: Grab user from database
       user_id = session[:user_id]
-      db = PetShopServer.create_db_connection 'pet-shop-server'
-      @current_user = PetShopServer::UsersRepo.find_by_id db, user_id
-      @current_user[:cats] = PetShopServer::CatsRepo.find_by_owner_id db, user_id
-      @current_user[:dogs] = PetShopServer::DogsRepo.find_by_owner_id db, user_id
+      @current_user = PetShop::User.find(user_id)
       puts "CURRENT USER IS: #{@current_user}"
-    # else
-      # @current_user = $user
     end
     erb :index
   end
@@ -44,9 +24,7 @@ require_relative 'lib/pet-shop-server.rb'
   #
   get '/shops' do
     headers['Content-Type'] = 'application/json'
-    # RestClient.get("http://pet-shop.api.mks.io/shops")
-    db = PetShopServer.create_db_connection('pet-shop-server')
-    PetShopServer::ShopsRepo.all(db)
+    PetShop::Shop.all.to_json
   end
 
   post '/signin' do
@@ -56,9 +34,10 @@ require_relative 'lib/pet-shop-server.rb'
     password = params['password']
 
     # TODO: Grab user by username from database and check password
-    db = PetShopServer.create_db_connection('pet-shop-server')
-    if PetShopServer::UsersRepo.find_by_name db, username
-      user = PetShopServer::UsersRepo.find_by_name db, username #{ 'username' => 'alice', 'password' => '123' }
+    # db = PetShopServer.create_db_connection('pet-shop-server')
+    # if PetShopServer::UsersRepo.find_by_name db, username
+    if PetShop::User.find(username)
+      user = PetShop::User.find(username) #{ 'username' => 'alice', 'password' => '123' }
       # puts "-------------------------------"
       # puts user
       # puts "correct password: #{user['password']}"
@@ -84,12 +63,7 @@ require_relative 'lib/pet-shop-server.rb'
   get '/shops/:id/cats' do
     headers['Content-Type'] = 'application/json'
     id = params[:id]
-    # TODO: Grab from database instead
-    # puts RestClient.get("http://pet-shop.api.mks.io/shops/#{id}/cats")
-    # RestClient.get("http://pet-shop.api.mks.io/shops/#{id}/cats")
-    db = PetShopServer.create_db_connection('pet-shop-server')
-    puts PetShopServer::CatsRepo.get_cats_by_shop(db, id)
-    PetShopServer::CatsRepo.get_cats_by_shop(db, id)
+    PetShop::Cat.where(shopid: id).to_json
   end
 
   put '/shops/:shop_id/cats/:id/adopt' do
@@ -109,11 +83,7 @@ require_relative 'lib/pet-shop-server.rb'
   get '/shops/:id/dogs' do
     headers['Content-Type'] = 'application/json'
     id = params[:id]
-    # TODO: Update database instead
-    # RestClient.get("http://pet-shop.api.mks.io/shops/#{id}/dogs")
-    db = PetShopServer.create_db_connection('pet-shop-server')
-    puts PetShopServer::DogsRepo.get_dogs_by_shop(db, id)
-    PetShopServer::DogsRepo.get_dogs_by_shop(db, id)
+    PetShop::Dog.where(shopid: id).to_json
   end
 
   put '/shops/:shop_id/dogs/:id/adopt' do
@@ -126,16 +96,3 @@ require_relative 'lib/pet-shop-server.rb'
     # TODO (after you create users table): Attach new dog to logged in user
   end
 
-
-#   $sample_user = {
-#     id: 999,
-#     username: 'alice',
-#     cats: [
-#       { shopId: 1, name: "NaN Cat", imageUrl: "http://i.imgur.com/TOEskNX.jpg", adopted: true, id: 44 },
-#       { shopId: 8, name: "Meowzer", imageUrl: "http://www.randomkittengenerator.com/images/cats/rotator.php", id: 8, adopted: "true" }
-#     ],
-#     dogs: [
-#       { shopId: 1, name: "Leaf Pup", imageUrl: "http://i.imgur.com/kuSHji2.jpg", happiness: 2, id: 2, adopted: "true" }
-#     ]
-# }
-# end
