@@ -8,6 +8,7 @@ gem 'rest-client'
 gem 'pg'
 gem 'activerecord', '~> 4.1.0'
 gem 'active_record_tasks', '~> 1.1.0'
+gem 'sinatra-flash'
 
 # Testing
 gem 'pry-byebug'
